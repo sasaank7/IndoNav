@@ -18,8 +18,6 @@ def dijkstra(graph, source, destination):
         visited.add(current_node)
 
         for neighbor, weight in graph[current_node].items():
-            if not neighbor.startswith('nav'):  # Skip nodes not starting with 'nav'
-                continue
 
             if neighbor not in visited:
                 new_distance = distance + weight
