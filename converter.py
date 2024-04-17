@@ -1,129 +1,149 @@
-import tkinter as tk
 import heapq
 
+# Nodes and edges
+edges_dict = {'node201': {'201nav252': 1.5},
+              'node252': {'201nav252': 1.5},
+              'node202': {'202nav251': 1.5},
+              'node251': {'202nav251': 1.5},
+              'node203': {'203nav': 1.5},
+              'node204': {'204nav250': 1.5},
+              'node250': {'204nav250': 1.5},
+              'node205': {'205nav': 1.5},
+              'node249': {'249nav': 1.5},
+              'node206': {'206nav': 1.5},
+              'node248': {'248nav': 1.5},
+              'node207': {'207nav': 1.5},
+              'node208': {'208nav': 1.5},
+              'node209': {'209nav': 1.5},
+              'node210': {'210nav': 1.5},
+              'node211': {'211nav247': 1.5},
+              'node247': {'211nav247': 1.5},
+              'node212': {'212nav246': 1.5},
+              'node246': {'212nav246': 1.5},
+              'node213': {'213nav245': 1.5},
+              'node245': {'213nav245': 1.5},
+              'node214': {'214nav233': 1.5},
+              'node233': {'214nav233': 1.5},
+              'node215': {'215nav232': 1.5},
+              'node232': {'215nav232': 1.5},
+              'node216': {'216nav231': 1.5},
+              'node231': {'216nav231': 1.5},
+              'node217': {'217nav': 1.5},
+              'node218': {'218nav': 1.5},
+              'node219': {'219nav': 1.5},
+              'node220': {'220nav': 1.5},
+              'node221': {'221nav230': 1.5},
+              'node230': {'221nav230': 1.5},
+              'node222': {'222nav': 1.5},
+              'node223': {'223nav229': 1.5},
+              'node229': {'223nav229': 1.5},
+              'node224': {'224nav': 1.5},
+              'node225': {'225nav228': 1.5},
+              'node228': {'225nav228': 1.5},
+              'node226': {'226nav227': 1.5},
+              'node227': {'226nav227': 1.5},
+              'node244': {'244nav': 1},
+              'node243': {'243nav': 1},
+              'node242': {'242nav': 1.5},
+              'node241': {'241nav': 1.5},
+              'node240': {'navcs': 1.5},
+              'node239': {'239nav': 1.5},
+              'node238': {'238nav': 1.5},
+              'node237': {'237nav': 1},
+              'node236': {'236nav': 1},
+              'node235': {'235nav': 1, 'node234': 4},
+              'node234': {'node235': 4},
 
-class DijkstraGraphTraversal:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Dijkstra's Graph Traversal")
-        self.master.geometry("800x600")
+              '201nav252': {'202nav251': 4, 'node201': 1.5, 'node252': 1.5},
+              '202nav251': {'201nav252': 4, 'node202': 1.5, 'node251': 1.5, '203nav': 7},
+              '203nav': {'202nav251': 7, '204nav250': 7, 'navcw': 22},
+              '204nav250': {'203nav': 7, 'node204': 1.5, 'node250': 1.5, '205nav': 2},
+              '205nav': {'204nav250': 2, 'node205': 1.5, '249nav': 3},
+              '249nav': {'node249': 1.5, '205nav': 3, '206nav': 2},
+              '206nav': {'node206': 1.5, '249nav': 2, '248nav': 2},
+              '248nav': {'node248': 1.5, '206nav': 2, '207nav': 5},
+              '207nav': {'node207': 1.5, '248nav': 5, '208nav': 3},
+              '208nav': {'node208': 1.5, '207nav': 3, '209nav': 7},
+              '209nav': {'node209': 1.5, '208nav': 7, '210nav': 7},
+              '210nav': {'node210': 1.5, '211nav247': 7, '209nav': 7},
+              '211nav247': {'210nav': 7, 'node211': 1.5, 'node247': 1.5, '212nav246': 7},
+              '212nav246': {'211nav247': 7, '213nav245': 7, 'node212': 1.5, 'node246': 1.5},
+              '213nav245': {'212nav246': 7, 'node212': 1.5, 'node246': 1.5, 'nodelounge': 5},
+              'nodelounge': {'nodeloungelane': 22, '213nav245': 5, '214nav233': 10},
+              '214nav233': {'nodelounge': 10, '215nav232': 7, 'node214': 1.5, 'node233': 1.5},
+              '215nav232': {'214nav233': 7, '216nav231': 7, 'node215': 1.5, 'node232': 1.5},
+              '216nav231': {'215nav232': 7, '217nav': 1.5, 'node216': 1.5, 'node231': 1.5},
+              '217nav': {'node217': 1.5, '216nav231': 1.5, '218nav': 6},
+              '218nav': {'node218': 1.5, '217nav': 6, '219nav': 7},
+              '219nav': {'node219': 1.5, '218nav': 7, '220nav': 3},
+              '220nav': {'node220': 1.5, '219nav': 3, '221nav230': 9},
+              '221nav230': {'220nav': 9, '222nav': 7, 'node221': 1.5, 'node230': 1.5},
+              '222nav': {'node222': 1.5, '221nav230': 7, '223nav229': 8},
+              '223nav229': {'222nav': 8, '224nav': 3, 'node223': 1.5, 'node229': 1.5},
+              '224nav': {'223nav229': 3, '225nav228': 7, 'node224': 1.5, 'navce': 22},
+              '225nav228': {'224nav': 7, '226nav227': 4, 'node225': 1.5, 'node228': 1.5},
+              '226nav227': {'225nav228': 4, 'node226': 1.5, 'node227': 1.5},
+              'nodeloungelane': {'nodelounge': 22, '244nav': 6, '234nav': 6},
+              '244nav': {'nodeloungelane': 6, 'node244': 1, '243nav': 8},
+              '243nav': {'244nav': 8, 'node243': 1, '242nav': 8},
+              '242nav': {'node242': 1, 'navcw': 2, 'navcn': 5, '243nav': 8},
+              'navcw': {'203nav': 22, 'navcs': 5, '241nav': 3, '242nav': 2},
+              '241nav': {'node241': 1, 'navcw': 3, 'navcs': 3},
+              'navcs': {'241nav': 3, 'navcw': 5, 'node240': 2, '239nav': 3, 'navce': 5},
+              '239nav': {'node239': 2, 'navcs': 3, 'navce': 3},
+              'navce': {'224nav': 22, 'navcs': 5, 'navcn': 5, '239nav': 3, '238nav': 2},
+              'navcn': {'navcw': 5, 'navce': 5, '242nav': 4, '238nav': 5, '237nav': 4},
+              '238nav': {'navce': 2, 'navcn': 5, '237nav': 4, 'node238': 1},
+              '237nav': {'navcn': 4, '238nav': 4, '236nav': 4, 'node237': 1},
+              '236nav': {'237nav': 4, '235nav': 4, 'node236': 1},
+              '235nav': {'236nav': 4, 'node235': 1, 'node234': 4},
+              '234nav': {'nodeloungelane': 6, '235nav': 4}}
 
-        self.canvas = tk.Canvas(master, bg="white", width=800, height=500)
-        self.canvas.pack()
 
-        self.start_node = None
-        self.end_node = None
-        self.graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
+def dijkstra(graph, source, destination):
+    distances = {node: float('inf') for node in graph}
+    distances[source] = 0
+    queue = [(0, source)]
+    previous_nodes = {}
 
-        self.shortest_distance = {}
-        self.visited = set()
-        self.path = []
+    while queue:
+        current_distance, current_node = heapq.heappop(queue)
 
-        self.draw_graph()
+        if current_node == destination:
+            path = []
+            while current_node:
+                path.append(current_node)
+                current_node = previous_nodes.get(current_node)
+            return path[::-1], distances[destination]
 
-        self.start_node_label = tk.Label(master, text="Start Node:")
-        self.start_node_label.place(x=20, y=520)
-        self.start_node_entry = tk.Entry(master)
-        self.start_node_entry.place(x=100, y=520)
+        if current_distance > distances[current_node]:
+            continue
 
-        self.end_node_label = tk.Label(master, text="End Node:")
-        self.end_node_label.place(x=250, y=520)
-        self.end_node_entry = tk.Entry(master)
-        self.end_node_entry.place(x=320, y=520)
+        for neighbor, weight in graph[current_node].items():
+            distance = current_distance + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                previous_nodes[neighbor] = current_node
+                heapq.heappush(queue, (distance, neighbor))
 
-        self.traverse_button = tk.Button(master, text="Traverse", command=self.traverse_graph)
-        self.traverse_button.place(x=480, y=515)
-
-    def draw_graph(self):
-        node_positions = {
-            'A': (100, 100),
-            'B': (200, 100),
-            'C': (200, 300),
-            'D': (100, 300)
-        }
-
-        for node, connections in self.graph.items():
-            x, y = node_positions[node]
-            self.canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill="blue", tags=f"node_{node}")
-            self.canvas.create_text(x, y - 20, text=node, tags=f"label_{node}")
-
-            for neighbor, weight in connections.items():
-                if (neighbor, node) not in self.visited:
-                    self.canvas.create_line(x, y, x, y + 20, arrow=tk.LAST, fill="black")
-                    self.canvas.create_text((x + x) / 2, (y + y + 20) / 2, text=str(weight))
-                    self.visited.add((node, neighbor))
-
-    def dijkstra(self, source):
-        distances = {node: float('inf') for node in self.graph}
-        distances[source] = 0
-        queue = [(0, source)]
-
-        while queue:
-            distance, current_node = heapq.heappop(queue)
-
-            if current_node not in self.visited:
-                self.visited.add(current_node)
-
-                for neighbor, weight in self.graph[current_node].items():
-                    if neighbor not in self.visited:
-                        new_distance = distance + weight
-                        if new_distance < distances[neighbor]:
-                            distances[neighbor] = new_distance
-                            heapq.heappush(queue, (new_distance, neighbor))
-
-        return distances
-
-    def traverse_graph(self):
-        start_node = self.start_node_entry.get().upper()
-        end_node = self.end_node_entry.get().upper()
-
-        if start_node not in self.graph or end_node not in self.graph:
-            tk.messagebox.showerror("Error", "Invalid Node")
-            return
-
-        self.shortest_distance = self.dijkstra(start_node)
-        self.path = [end_node]
-
-        current_node = end_node
-        while current_node != start_node:
-            min_distance = float('inf')
-            next_node = None
-            for neighbor, weight in self.graph[current_node].items():
-                if self.shortest_distance[neighbor] + weight == self.shortest_distance[current_node]:
-                    if weight < min_distance:
-                        min_distance = weight
-                        next_node = neighbor
-            self.path.append(next_node)
-            current_node = next_node
-
-        self.path.reverse()
-        self.highlight_path()
-
-    def highlight_path(self):
-        shortest_path = self.path
-
-        # Loop through each node in the shortest path
-        for i in range(len(shortest_path) - 1):
-            current_node = shortest_path[i]
-            next_node = shortest_path[i + 1]
-
-            # Get the coordinates of the current and next node
-            x1, y1 = self.canvas.coords(f"node_{current_node}")[0], self.canvas.coords(f"node_{current_node}")[1]
-            x2, y2 = self.canvas.coords(f"node_{next_node}")[0], self.canvas.coords(f"node_{next_node}")[1]
-
-            # Highlight the edge between the current and next node
-            self.canvas.create_line(x1, y1, x2, y2, fill="red", width=2, tags="highlighted_path")
+    return None, None
 
 
 def main():
-    root = tk.Tk()
-    app = DijkstraGraphTraversal(root)
-    root.mainloop()
+    source = input("Enter source node: ")
+    destination = input("Enter destination node: ")
+
+    if source not in edges_dict or destination not in edges_dict:
+        print("Invalid source or destination node.")
+        return
+
+    path, distance = dijkstra(edges_dict, source, destination)
+
+    if path:
+        print("Shortest path:", ' -> '.join(path))
+        print("Distance traveled:", distance)
+    else:
+        print("There is no path between the source and destination.")
 
 
 if __name__ == "__main__":
