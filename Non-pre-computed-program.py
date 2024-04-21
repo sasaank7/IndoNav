@@ -1,5 +1,4 @@
 import heapq
-import json
 
 # Nodes and edges
 edges_dict = {'node201': {'201nav252': 1.5},
@@ -100,18 +99,7 @@ edges_dict = {'node201': {'201nav252': 1.5},
               '235nav': {'236nav': 4, 'node235': 1, 'node234': 4},
               '234nav': {'nodeloungelane': 6, '235nav': 4}}
 
-# Function to precompute all shortest paths and distances
-def precompute_shortest_paths(graph):
-    all_shortest_paths = {}
-    for source in graph:
-        shortest_paths = {}
-        for destination in graph:
-            path, distance = dijkstra(graph, source, destination)
-            shortest_paths[destination] = (path, distance)
-        all_shortest_paths[source] = shortest_paths
-    return all_shortest_paths
 
-# Function to find the shortest path and distance using Dijkstra's algorithm
 def dijkstra(graph, source, destination):
     distances = {node: float('inf') for node in graph}
     distances[source] = 0
@@ -140,23 +128,8 @@ def dijkstra(graph, source, destination):
 
     return None, None
 
-# Precompute all shortest paths and distances
-all_shortest_paths = precompute_shortest_paths(edges_dict)
 
-# Save precomputed data to a JSON file
-with open("precomputed_data.json", "w") as f:
-    json.dump(all_shortest_paths, f)
-
-# Function to load precomputed data from the JSON file
-def load_precomputed_data(file_path):
-    with open(file_path, "r") as f:
-        return json.load(f)
-
-# Main function
 def main():
-    # Load precomputed data
-    all_shortest_paths = load_precomputed_data("precomputed_data.json")
-
     source = input("Enter source node: ")
     destination = input("Enter destination node: ")
 
@@ -164,12 +137,14 @@ def main():
         print("Invalid source or destination node.")
         return
 
-    if source in all_shortest_paths and destination in all_shortest_paths[source]:
-        path, distance = all_shortest_paths[source][destination]
+    path, distance = dijkstra(edges_dict, source, destination)
+
+    if path:
         print("Shortest path:", ' -> '.join(path))
         print("Distance traveled:", distance)
     else:
         print("There is no path between the source and destination.")
+
 
 if __name__ == "__main__":
     main()
