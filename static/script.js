@@ -1,3 +1,4 @@
+/*
 document.getElementById('searchForm').addEventListener('submit', function(event) {
     event.preventDefault();
     var source = document.getElementById('source').value;
@@ -18,4 +19,50 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
         }
     };
     xhr.send(JSON.stringify({ source: source, destination: destination }));
+});
+*/
+document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var source = document.getElementById('source').value;
+    var destination = document.getElementById('destination').value;
+
+    var xhr = new XMLHttpRequest();$(document).ready(function() {
+    $('#searchForm').submit(function(event) {
+        event.preventDefault();
+        var source = $('#source').val();
+        var destination = $('#destination').val();
+
+        // Perform AJAX request to backend
+        $.ajax({
+            type: 'POST',
+            url: '/get_path',
+            data: {source: source, destination: destination},
+            success: function(response) {
+                displayPath(response.path);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
+function displayPath(path) {
+    var pathDisplay = $('#pathDisplay');
+    pathDisplay.empty();
+    if (path && path.length > 0) {
+        var pathList = $('<ul>');
+        path.forEach(function(node) {
+            var listItem = $('<li>').text(node);
+            pathList.append(listItem);
+        });
+        pathDisplay.append(pathList);
+    } else {
+        pathDisplay.text('No path found for the given source.');
+    }
+}
+
+
+    xhr.send(JSON.stringify({ source: source, destination: destination }));
+
 });

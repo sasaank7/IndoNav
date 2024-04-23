@@ -1,0 +1,25 @@
+/* CSS for layout */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    justify-content: space-between;
+}
+.left-section {
+    flex: 1;
+    padding: 20px;
+}
+.right-section {
+    flex: 2;
+    padding: 20px;
+}
+.upper-right {
+    height: 70%;
+    overflow: hidden;
+}
+.lower-right {
+    height: 30%;
+    overflow-y: auto;
+}
