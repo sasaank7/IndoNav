@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Finder</title>
+
+    <!-- Include script.js -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <style>
+        /* CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            justify-content: space-between;
+        }
+        .left-section {
+            flex: 1;
+            padding: 20px;
+        }
+        .right-section {
+            flex: 2;
+            padding: 20px;
+        }
+        .upper-right {
+            height: 70%;
+            overflow: hidden;
+        }
+        .lower-right {
+            height: 30%;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-section">
+        <h2>Path Finder</h2>
+        <form id="searchForm">
+            <label for="source">Source:</label><br>
+            <input type="text" id="source" name="source"><br>
+            <label for="destination">Destination:</label><br>
+            <input type="text" id="destination" name="destination"><br><br>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="right-section">
+        <div class="upper-right">
+            <!-- Image placeholder -->
+            <img src="{{ url_for('static', filename='images/floor.png') }}" alt="Map Image" width="100%" height="100%">
+        </div>
+        <div class="lower-right">
+            <h3>Path from Source to Destination:</h3>
+            <ul id="pathList">
+                <!-- Path will be displayed here dynamically -->
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
