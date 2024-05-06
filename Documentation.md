@@ -20,6 +20,7 @@ To run IndoNav, execute the following command in the project directory:
 python webpage_flask.py
 ```
 
+
 # How to Use
 - Open the application in a web browser.
 - Input your starting location and destination on the CMRIT 2nd floor in the respective fields.
