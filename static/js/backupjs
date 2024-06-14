@@ -37,31 +37,4 @@ $(document).ready(function() {
             pathList.append($('<li>').text(distanceText));
         }
     }
-
-    // Slider functionality
-    const slider = $('.slider');
-    const images = $('.slider img');
-    let currentIndex = 0;
-
-    function showSlide(index) {
-        if (index >= images.length) {
-            currentIndex = 0;
-        } else if (index < 0) {
-            currentIndex = images.length - 1;
-        } else {
-            currentIndex = index;
-        }
-        slider.css('transform', 'translateX(' + (-currentIndex * 100) + '%)');
-    }
-
-    $('.next').click(function() {
-        showSlide(currentIndex + 1);
-    });
-
-    $('.prev').click(function() {
-        showSlide(currentIndex - 1);
-    });
-
-    // Initialize the slider
-    showSlide(currentIndex);
 });

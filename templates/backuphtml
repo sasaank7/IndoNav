@@ -22,13 +22,7 @@
             </form>
         </div>
         <div class="image-container">
-            <div class="slider">
-                <img src="{{ url_for('static', filename='images/floor.png') }}" alt="Map Image 1">
-                <img src="{{ url_for('static', filename='images/floor.png') }}" alt="Map Image 2">
-                <img src="{{ url_for('static', filename='images/floor.png') }}" alt="Map Image 3">
-            </div>
-            <button class="prev">&laquo;</button>
-            <button class="next">&raquo;</button>
+            <img src="{{ url_for('static', filename='images/floor.png') }}" alt="Map Image">
         </div>
         <div class="path-container">
             <h3>Path from Source to Destination:</h3>
@@ -39,6 +33,5 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/slider.js') }}"></script>
 </body>
 </html>
