@@ -1,7 +1,6 @@
 import heapq
 import json
 
-
 # Nodes and edges
 edges_dict = {'node201': {'201nav252': 1.5},
               'node252': {'201nav252': 1.5},
